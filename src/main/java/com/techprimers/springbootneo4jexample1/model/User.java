@@ -5,10 +5,11 @@ import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 
 @NodeEntity
-public class User implements Serializable {
+public class User {
 
     @GraphId
     private Long id;
@@ -17,9 +18,9 @@ public class User implements Serializable {
     private String address;
     private String contactNo;
     @Relationship(type = "friend", direction = Relationship.UNDIRECTED)
-    private List<String> friends;
+    private List<Long> friends;
 
-    public User(Long id,String name, String email, String address, String contactNo, List<String> friends) {
+    public User(Long id,String name, String email, String address, String contactNo, List<Long> friends) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -73,11 +74,11 @@ public class User implements Serializable {
         this.contactNo = contactNo;
     }
 
-    public List<String> getFriends() {
+    public List<Long> getFriends() {
         return friends;
     }
 
-    public void setFriends(List<String> friends) {
+    public void setFriends(List<Long> friends) {
         this.friends = friends;
     }
 

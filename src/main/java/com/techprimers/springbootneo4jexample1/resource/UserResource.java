@@ -1,5 +1,6 @@
 package com.techprimers.springbootneo4jexample1.resource;
 
+import ch.qos.logback.core.pattern.util.RegularEscapeUtil;
 import com.techprimers.springbootneo4jexample1.model.User;
 import com.techprimers.springbootneo4jexample1.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,5 +72,54 @@ catch(Exception e){
 
 
     }
+    @GetMapping("/getById/{id}")
+    public ResponseEntity<?> getById(@PathVariable("id") long id){
+
+        try{
+
+            return new ResponseEntity<User>(userService.getBYId(id),HttpStatus.OK);
+
+        }
+        catch(Exception e){
+
+e.printStackTrace();
+
+            return new ResponseEntity<String>("no id",HttpStatus.CONFLICT);
+        }
+
+
+
+    }
+
+
+    @PostMapping("/isUserExists")
+    public ResponseEntity<?> vaildateUserLogin(@RequestBody  User user){
+
+        try{
+            System.out.println("the maisl os "+user.getEmail());
+            return new ResponseEntity<Boolean>(userService.valdiateUserEmail(user.getEmail()),HttpStatus.OK);
+        }
+
+        catch(Exception e){
+
+
+            return new ResponseEntity<String>("Facing Trouble",HttpStatus.CONFLICT);
+        }
+    }
+
+    @GetMapping("/deleteAllUsers")
+    public ResponseEntity<?> deleteAllusers(){
+
+
+        try{
+            return  new ResponseEntity<>(userService.deleteAllUsers(),HttpStatus.OK);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>("error occures",HttpStatus.CONFLICT);
+        }
+
+    }
+
 
 }

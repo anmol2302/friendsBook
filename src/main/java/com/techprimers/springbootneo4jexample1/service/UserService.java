@@ -4,8 +4,7 @@ import com.techprimers.springbootneo4jexample1.model.User;
 import com.techprimers.springbootneo4jexample1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -25,21 +24,65 @@ public class UserService {
 try {
     User person1Obj = userRepository.findOne(person1Id);
     User person2Obj = userRepository.findOne(person2Id);
-    person1Obj.getFriends().add(person2Obj.getName());
-    person2Obj.getFriends().add(person1Obj.getName());
+    person1Obj.getFriends().add(person2Obj.getId());
+    person2Obj.getFriends().add(person1Obj.getId());
     userRepository.save(person1Obj);
     userRepository.save(person2Obj);
-    System.out.println(userRepository.exists(person1Id));
-    System.out.println(userRepository.exists((long)5));
-    System.out.println(userRepository.findOne((long)3).getName());
-    System.out.println(userRepository.findOne(person1Id).getName());
 }
+
+
+
 catch(Exception e){
     e.printStackTrace();
     return false;
 }
 return true;
     }
+    public User getBYId(long id){
 
+
+        try {
+            return userRepository.getByid(id);
+        }
+        catch(Exception e){
+
+            e.printStackTrace();
+        }
+return null;
+    }
+
+
+
+    public boolean valdiateUserEmail(String emailToBeValidated){
+
+        boolean isFound=false;
+        try{
+
+
+            System.out.println(Arrays.toString(userRepository.getAllUserEmails().toArray()));
+
+            isFound=userRepository.getAllUserEmails().contains(emailToBeValidated);
+
+        }
+        catch (Exception e){
+            return false;
+        }
+
+        return isFound;
+    }
+
+    public boolean deleteAllUsers(){
+
+        try {
+             userRepository.deleteAllUsers();
+             return true;
+        }
+        catch(Exception e){
+
+            e.printStackTrace();
+            return false;
+        }
+
+    }
 
 }
